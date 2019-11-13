@@ -1,0 +1,14 @@
+app:
+  videos:
+    location: videos
+server:
+  port: 8083
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      username: root
+      password: example
+      port: 27017
+      host: localhost
+      database: video_stream

@@ -1,0 +1,5 @@
+rootProject.name = 'stream-app'
+include 'uploader-app'
+include 'distributor-app'
+include 'database-entities'
+
