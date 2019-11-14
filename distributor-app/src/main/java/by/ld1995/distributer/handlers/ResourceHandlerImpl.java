@@ -23,6 +23,7 @@ import static by.ld1995.distributer.utils.ResourceHandlerUtil.RESPONSE_IS_EMPTY;
 public class ResourceHandlerImpl implements ResourceHandler {
 
     private final VideoInfoRepository videoInfoRepository;
+
     @Value("${app.videos.location}")
     private String videosLocation;
 
@@ -42,8 +43,6 @@ public class ResourceHandlerImpl implements ResourceHandler {
     }
 
     //   todo EventSource https://learn.javascript.ru/server-sent-events
-
-    //   SUBTITLE_MEDIA_TYPE = "text/vvt: charset=utf-8";
     @Override
     public Mono<ServerResponse> getVideosInfo(ServerRequest request) {
         return ServerResponse
