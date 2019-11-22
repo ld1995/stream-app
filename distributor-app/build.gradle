@@ -1,23 +1,4 @@
-plugins {
-    id 'java'
-    id 'application'
-}
-
-group 'stream-app'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
-mainClassName = 'by.ld1995.distributor.DistributorStarter'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     compile project(':database-entities')
-    compile 'org.springframework.boot:spring-boot-starter-webflux:2.2.0.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive:2.2.0.RELEASE'
-    compileOnly 'org.projectlombok:lombok:1.18.10'
-    annotationProcessor 'org.projectlombok:lombok:1.18.10'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'org.springframework.boot:spring-boot-starter-webflux'
 }

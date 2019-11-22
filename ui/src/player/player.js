@@ -13,8 +13,8 @@ class Player extends Component {
     render() {
         return (
             <div>
-                <video id="video" width="420" height="380" autoPlay controls controlsList="nodownload">
-                    <source src="http://localhost:8083/video/5dcd9f247956a023b1510ac7" type="video/mp4"/>
+                <video id="video" autoPlay controls controlsList="nodownload">
+                    <source src={this.props.link} type={this.props.type}/>
                     {/* SUBTITLE_MEDIA_TYPE = "text/vvt: charset=utf-8";*/}
                     {/*<track label="England" kind="subtitles" src="http://localhost:8080/subs/1/en.vtt" srcLang="en" default/>*/}
                     {/*<track label="Russian" kind="subtitles" src="http://localhost:8080/subs/1/ru.vtt" srcLang="ru"/>*/}

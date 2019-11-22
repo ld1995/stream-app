@@ -1,5 +1,6 @@
 package by.ld1995.distributer.handlers;
 
+import by.ld1995.database.entities.VideoInfo;
 import by.ld1995.distributer.repositories.VideoInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,13 +43,13 @@ public class ResourceHandlerImpl implements ResourceHandler {
                 .switchIfEmpty(RESPONSE_IS_EMPTY);
     }
 
-    //   todo EventSource https://learn.javascript.ru/server-sent-events
+    // todo send if only have change
     @Override
     public Mono<ServerResponse> getVideosInfo(ServerRequest request) {
         return ServerResponse
                 .ok()
                 .contentType(MediaType.TEXT_EVENT_STREAM)
-                .bodyValue(videoInfoRepository.findAll())
+                .body(videoInfoRepository.findAll(), VideoInfo.class)
                 .onErrorResume(BUILD_ERROR_SERVER_RESPONSE)
                 .switchIfEmpty(RESPONSE_IS_EMPTY);
     }

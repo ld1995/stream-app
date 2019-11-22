@@ -38,5 +38,6 @@ public class VideoInfo {
     private Instant timestamp;
 
     @Field(targetType = FieldType.ARRAY)
+    @Builder.Default
     private List<Subtitle> subtitles = new ArrayList<>();
 }

@@ -1,5 +1,32 @@
 plugins {
     id 'java'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+}
+
+subprojects {
+    group = 'stream-app'
+    version = '0.0.1-SNAPSHOT'
+
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java-library'
+
+    repositories {
+        jcenter()
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.2.1.RELEASE")
+        }
+    }
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok:1.18.10'
+        annotationProcessor 'org.projectlombok:lombok:1.18.10'
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+
 }
 
 group 'stream-app'
@@ -12,23 +39,3 @@ allprojects {
         jcenter()
     }
 }
-
-subprojects {
-    version = '1.0'
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-}
-
-//buildscript {
-//    ext {
-//        springBootVersion = '2.1.6.RELEASE'
-//    }
-//    repositories {
-//        mavenCentral()
-//    }
-//    dependencies {
-//        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-//    }
-//}
