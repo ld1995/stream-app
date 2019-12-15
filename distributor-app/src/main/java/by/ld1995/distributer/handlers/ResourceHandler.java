@@ -8,5 +8,7 @@ public interface ResourceHandler {
 
     Mono<ServerResponse> getVideo(ServerRequest request);
 
+    Mono<ServerResponse> getVideoInfo(ServerRequest request);
+
     Mono<ServerResponse> getVideosInfo(ServerRequest request);
 }

@@ -35,6 +35,9 @@ public class VideoInfo {
     private String extension;
 
     @Field
+    private String hash;
+
+    @Field
     private Instant timestamp;
 
     @Field(targetType = FieldType.ARRAY)

@@ -15,3 +15,14 @@ spring:
       port: 27017
       host: localhost
       database: video_stream
+#  security:
+#    oauth2:
+#      client:
+#        provider:
+#          authProvider:
+#            token-uri: https://authservice.com/apicall/token
+#        registration:
+#          google:
+#            client-id: 215906249412-cpcfj50lp7389c6vvp1ml4lev6iq7i8b.apps.googleusercontent.com
+#            client-secret: G6fa8w8sRaT8qixrOWBNVN9A
+#            redirect-uri-template: http://localhost:8082/login/oauth2/code/google

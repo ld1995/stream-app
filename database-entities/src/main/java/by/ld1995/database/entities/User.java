@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Builder
 @Getter
@@ -20,5 +21,12 @@ public class User {
     @Id
     private String id;
 
-    private String username;
+    @Field
+    private String fullName;
+
+    @Field
+    private String picture;
+
+    @Field
+    private String email;
 }

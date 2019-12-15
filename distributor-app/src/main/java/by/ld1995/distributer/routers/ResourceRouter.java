@@ -15,7 +15,8 @@ public class ResourceRouter {
     @Bean
     public RouterFunction<ServerResponse> route(final ResourceHandler handler) {
         return RouterFunctions
-                .route(GET("/video/{id}"), handler::getVideo)
+                .route(GET("/video/file/{id}"), handler::getVideo)
+                .andRoute(GET("/video/{id}"), handler::getVideoInfo)
                 .andRoute(GET("/videos"), handler::getVideosInfo);
     }
 }

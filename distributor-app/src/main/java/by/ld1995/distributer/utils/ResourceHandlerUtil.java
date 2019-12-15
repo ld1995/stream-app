@@ -17,6 +17,17 @@ import java.util.function.Function;
 
 public final class ResourceHandlerUtil {
 
+    public final static BiFunction<FileSystemResource, Mono<ResourceRegion>, Mono<ServerResponse>> BUILD_SUCCESS_SERVER_RESPONSE = (video, resourceRegion) ->
+            ServerResponse.status(HttpStatus.PARTIAL_CONTENT)
+                    .contentType(MediaTypeFactory.getMediaType(video).orElse(MediaType.APPLICATION_OCTET_STREAM))
+                    .body(resourceRegion, ResourceRegion.class);
+
+    public final static Function<Throwable, Mono<ServerResponse>> BUILD_ERROR_SERVER_RESPONSE = e ->
+            Mono.just("Error " + e.getMessage()).flatMap(message -> ServerResponse.badRequest().bodyValue(message));
+
+    public final static Function<String, Mono<ServerResponse>> BUILD_ERROR_RESPONSE = (body) ->
+            Mono.just(body).flatMap(message -> ServerResponse.badRequest().bodyValue(message));
+
     private final static int ONE_MEGA_BYTE = 1024 * 1024;
 
     public final static BiFunction<FileSystemResource, HttpHeaders, Mono<ResourceRegion>> BUILD_RESOURCE_REGION = (resource, headers) -> {
@@ -37,14 +48,4 @@ public final class ResourceHandlerUtil {
             return Mono.just(new ResourceRegion(resource, 0, rangeLength));
         }
     };
-
-    public final static BiFunction<FileSystemResource, Mono<ResourceRegion>, Mono<ServerResponse>> BUILD_SUCCESS_SERVER_RESPONSE = (video, resourceRegion) ->
-            ServerResponse.status(HttpStatus.PARTIAL_CONTENT)
-                    .contentType(MediaTypeFactory.getMediaType(video).orElse(MediaType.APPLICATION_OCTET_STREAM))
-                    .body(resourceRegion, ResourceRegion.class);
-
-    public final static Function<Throwable, Mono<ServerResponse>> BUILD_ERROR_SERVER_RESPONSE = e ->
-            Mono.just("Error " + e.getMessage()).flatMap(message -> ServerResponse.badRequest().bodyValue(message));
-
-    public final static Mono<ServerResponse> RESPONSE_IS_EMPTY = Mono.just("The requested object was not found!").flatMap(message -> ServerResponse.badRequest().bodyValue(message));
 }

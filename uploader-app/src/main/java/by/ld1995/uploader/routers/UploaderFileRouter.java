@@ -18,7 +18,7 @@ public class UploaderFileRouter {
     @Bean
     RouterFunction<ServerResponse> route(final FileHandler handler) {
         return RouterFunctions
-                .route(POST("/videos").and(accept(MediaType.MULTIPART_FORM_DATA)), handler::uploadVideos)
+                .route(POST("/videos"), handler::uploadVideos)
                 .andRoute(POST("video/{id}/subtitles").and(accept(MediaType.MULTIPART_FORM_DATA)), handler::uploadSubtitles);
     }
 }

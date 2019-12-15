@@ -4,18 +4,12 @@ import by.ld1995.database.entities.Subtitle;
 import by.ld1995.uploader.repositories.VideoInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Consumer;
@@ -29,41 +23,29 @@ import static by.ld1995.uploader.utils.FileHandlerUtil.BUILD_VIDEO_INFO;
 import static by.ld1995.uploader.utils.FileHandlerUtil.GET_CONTENT_OF_FILE;
 import static by.ld1995.uploader.utils.FileHandlerUtil.GET_FILE_PART_FORM_REQUEST;
 
-@Component
 @Slf4j
 @RequiredArgsConstructor
 public class FileHandlerImpl implements FileHandler {
 
-    //https://github.com/entzik/reactive-spring-boot-examples/blob/master/src/main/java/com/thekirschners/springbootsamples/reactiveupload/ReactiveUploadResource.java
-
     private final VideoInfoRepository videoInfoRepository;
-
-    @Value("${app.videos.location}")
-    private String videosLocation;
-
-    @Value("#{'${app.extensions.subtitle}'.split(',')}")
-    private List<String> subtitleExtensions;
-
-    @Value("#{'${app.extensions.video}'.split(',')}")
-    private List<String> videoExtensions;
+    private final String videosLocation;
+    private final List<String> subtitleExtensions;
+    private final List<String> videoExtensions;
 
     @Override
     public Mono<ServerResponse> uploadVideos(final ServerRequest request) {
+//        Predicate<FilePart> isUnique = (filePart) -> {
+//            final Optional<String> hash = GenerateHashUtil.generateHash(filePart);
+//            if (hash.isPresent()) {
+//                System.out.println(hash);
+//                return !videoInfoRepository.existsByHash(hash.get());
+//            }
+//            return false;
+//        };
         Consumer<FilePart> saveVideoToDisk = filePart ->
                 filePart.transferTo(Paths.get(String.format("%s/%s", videosLocation, filePart.filename())));
-        Consumer<FilePart> createDirIfNotExist = (a) -> {
-            final Path dirPath = Paths.get(videosLocation);
-            boolean exists = Files.exists(dirPath, LinkOption.NOFOLLOW_LINKS);
-            if (!exists) {
-                try {
-                    Files.createDirectories(dirPath);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
         return GET_FILE_PART_FORM_REQUEST.apply(request, videoExtensions)
-                .doOnNext(createDirIfNotExist)
+//                .filter(isUnique)
                 .doOnNext(saveVideoToDisk)
                 .map(BUILD_VIDEO_INFO)
                 .doOnNext(videoInfo -> videoInfoRepository.save(videoInfo).subscribe())
